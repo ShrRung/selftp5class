@@ -1,0 +1,13 @@
+{
+    "name": "lazycat/selftp5class",
+    "description": "just for tp5 classes's simple use",
+    "authors": [
+        {
+            "name": "lazycat",
+            "email": "xuy_shrrung@sina.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    }
+}
