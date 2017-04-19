@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Catclass\\Dayu\\": "src/Catclass/Dayu"
+            "Catclass\\Sms\\": "src/Catclass/Sms"
         }
     }
 }

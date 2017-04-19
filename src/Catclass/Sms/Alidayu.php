@@ -9,11 +9,11 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 
-namespace Catclass\Dayu;
-class Dayu
+namespace Catclass\Sms;
+class Alidayu
 {
     public function info()
     {
-        echo 'Dayu';
+        echo 'Alidayu';
     }
 }
