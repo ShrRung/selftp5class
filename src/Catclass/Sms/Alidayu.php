@@ -35,16 +35,14 @@ class Alidayu
         //时区设置：亚洲/上海
         date_default_timezone_set('Asia/Shanghai');
         $this->setting = [
-            'sms_product'        => $config['sms_product'],
             'app_key'            => $config['app_key'],
             'secret_key'         => $config['secret_key'],
             'timestamp'          => date("Y-m-d H:i:s", time()),
             'format'             => $config['format'],
             'api_version'        => $config['api_version'],
-            'sign_method'        => $config['sign_method'],   //hmac，md5
-            'sms_free_sign_name' => $config['signature'],
-            'sms_templateForm'   => $config['sms_templateForm'], //模板格式
-            'sms_templateCode'   => $config['sms_templateCode']  //模板编码
+            'sign_method'        => $config['sign_method'],   //2.0版本只有md5
+            'sign_name'          => $config['sign_name'],
+            'sms_templateCode'  => $config['sms_templateCode']
         ];
     }
 
@@ -52,48 +50,47 @@ class Alidayu
      * 获取模板
      * 必须与阿里大于管理后台一致
      */
-    function sendSMS($mobile,$SignName,$clientName='default')
+    function sendSMS($mobile,$SignName,$clientName='default',$data = [])
     {
-        $c = new TopClient();
+        $c = new TopClient($this->setting);
         new ResultSet();
         new RequestCheckUtil();
         new TopLogger();
-        //短信内容：公司名/名牌名/产品名
-        $product = $this->setting['sms_product'];
+
         $c->appkey = $this->setting['app_key'];
         $c->secretKey = $this->setting['secret_key'];
-        //这个是用户名记录那个用户操作
         $req = new AlibabaAliqinFcSmsNumSendRequest;
-        //代理人编号 可选 这个是用户名记录那个用户操作
-        $req->setExtend($clientName);
-        //短信类型 此处默认 不用修改
-        $req->setSmsType($this->setting['format']);
-        //短信签名 必须
-        $req->setSmsFreeSignName($SignName);
+        $req->setExtend($clientName);       //可选 这个是用户名记录那个用户操作
+        $req->setSmsType($this->setting['format']);     //短信类型 此处默认 不用修改
+        $req->setSmsFreeSignName($this->setting['sign_name']);        //短信签名 必须  为网站设置的验证通过的签名
         //短信模板 必须
-        $req->setSmsParam($this->setting['sms_templateForm']);  //"{\"code\":\"$code\",\"name\":\"$name\"}"
-        //短信接收号码 支持单个或多个手机号码，传入号码为11位手机号码，不能加0或+86。群发短信需传入多个号码，以英文逗号分隔
-        $req->setRecNum("$mobile");
-        //短信模板ID，传入的模板必须是在阿里大鱼“管理中心-短信模板管理”中的可用模板。
-        $req->setSmsTemplateCode($this->setting['sms_templateCode']); //SMS_60870256
-
+        $req->setSmsParam(json_encode($data));  //"{\"code\":\"$code\",\"name\":\"$name\"}"
+        $req->setRecNum("$mobile");         //支持单个或多个手机号码，传入号码为11位手机号码，不能加0或+86。群发短信需传入多个号码，以英文逗号分隔
+        $req->setSmsTemplateCode($this->setting['sms_templateCode']); //模板code
         $c->format=$this->setting['format'];
         //发送短信
         $resp = $c->execute($req);
         var_dump($resp);
-        //短信发送成功返回True，失败返回false
-        //if (!$resp)
-//        if ($resp && $resp->result)   // if($resp->result->success == true)
-//        {
-//            // 从数据库中查询是否有验证码
-//            $data = M('sms_log')->where("code = '$code' and add_time > ".(time() - 60*60))->find();
-//            // 没有就插入验证码,供验证用
-//            empty($data) && M('sms_log')->add(array('mobile' => $mobile, 'code' => $code, 'add_time' => time(), 'session_id' => SESSION_ID));
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
+        $return_str = [
+            'status' => 'true',
+            'msg' => 'success'
+        ];
+        if ($resp && $resp->result){// if($resp->result->success == true)
+            return $return_str;
+        }else{
+            $return_str['status'] = 'false';
+            switch ($resp['error_response']['sub_code']) {
+                case 'isv.BUSINESS_LIMIT_CONTROL':
+                    $return_str['msg'] = '请勿频繁请求,稍后再试';
+                    break;
+                case 'isv.MOBILE_NUMBER_ILLEGAL':
+                    $return_str['msg'] = '手机号码格式不正确';
+                    break;
+                default :
+                    $return_str['msg'] = '短信系统异常';
+            }
+            return $return_str;
+        }
+
     }
 }

@@ -18,15 +18,18 @@ class TopClient
 	/** 是否打开入参check**/
 	public $checkRequest = true;
 
-	protected $signMethod = "md5";
+	protected $signMethod = "MD5";
 
 	protected $apiVersion = "2.0";
 
 	protected $sdkVersion = "top-sdk-php-20151012";
 
-	public function __construct($appkey = "",$secretKey = ""){
-		$this->appkey = $appkey;
-		$this->secretKey = $secretKey ;
+	public function __construct($config = []){
+		$this->appkey = $config['app_key'];
+		$this->secretKey = $config['secret_key'];
+		$this->apiVersion = $config['api_version'];
+		$this->signMethod = $config['sign_method'];
+		$this->format = $config['format'];
 	}
 
 	protected function generateSign($params)
