@@ -29,13 +29,9 @@ class Alidayu
     /** 是否打开入参check**/
     public $checkRequest = true;
 
-    private $mobile;
-
-    private $SignName;
-
     private $setting;
 
-    public function __construct($mobile,$SignName,$config = []){
+    public function __construct($config = []){
         //时区设置：亚洲/上海
         date_default_timezone_set('Asia/Shanghai');
         $this->setting = [
@@ -47,43 +43,37 @@ class Alidayu
             'api_version'        => $config['api_version'],
             'sign_method'        => $config['sign_method'],   //hmac，md5
             'sms_free_sign_name' => $config['signature'],
-            'sms_templateCode'   => $config['sms_templateCode']
+            'sms_templateForm'   => $config['sms_templateForm'], //模板格式
+            'sms_templateCode'   => $config['sms_templateCode']  //模板编码
         ];
-        $this->mobile = $mobile;
-        $this->SignName = $SignName;
-
     }
 
     /*
      * 获取模板
      * 必须与阿里大于管理后台一致
      */
-    function sendSMS($mobile, $code)
+    function sendSMS($mobile,$SignName,$clientName='default')
     {
-//        //这个是topClient 里面需要实例化一个类所以我们也要加载 不然会报错
-//        vendor('Alidayu.ResultSet');
-//        //这个是成功后返回的信息文件
-//        vendor('Alidayu.RequestCheckUtil');
-//        //这个是错误信息返回的一个php文件
-//        vendor('Alidayu.TopLogger');
-
         $c = new TopClient();
+        new ResultSet();
+        new RequestCheckUtil();
+        new TopLogger();
         //短信内容：公司名/名牌名/产品名
         $product = $this->setting['sms_product'];
         $c->appkey = $this->setting['app_key'];
         $c->secretKey = $this->setting['secret_key'];
         //这个是用户名记录那个用户操作
-        $req = new AlibabaAliqinFcSmsNumSendRequest();
+        $req = new AlibabaAliqinFcSmsNumSendRequest;
         //代理人编号 可选 这个是用户名记录那个用户操作
-        $req->setExtend("123456");
+        $req->setExtend($clientName);
         //短信类型 此处默认 不用修改
-        $req->setSmsType("format");
+        $req->setSmsType($this->setting['format']);
         //短信签名 必须
-        $req->setSmsFreeSignName($this->SignName);
+        $req->setSmsFreeSignName($SignName);
         //短信模板 必须
-        $req->setSmsParam("{\"code\":\"$code\",\"product\":\"$product\"}");
-        //短信接收号码 支持单个或多个手机号码，传入号码为11位手机号码，不能加0或+86。群发短信需传入多个号码，以英文逗号分隔，
-        $req->setRecNum("$this->mobile");
+        $req->setSmsParam($this->setting['sms_templateForm']);  //"{\"code\":\"$code\",\"name\":\"$name\"}"
+        //短信接收号码 支持单个或多个手机号码，传入号码为11位手机号码，不能加0或+86。群发短信需传入多个号码，以英文逗号分隔
+        $req->setRecNum("$mobile");
         //短信模板ID，传入的模板必须是在阿里大鱼“管理中心-短信模板管理”中的可用模板。
         $req->setSmsTemplateCode($this->setting['sms_templateCode']); //SMS_60870256
 

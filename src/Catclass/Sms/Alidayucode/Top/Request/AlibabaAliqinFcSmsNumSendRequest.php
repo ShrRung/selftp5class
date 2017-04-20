@@ -7,6 +7,8 @@
  */
 namespace Catclass\Sms\Alidayucode\Top\Request;
 
+use Catclass\Sms\Alidayucode\Top\RequestCheckUtil;
+
 class AlibabaAliqinFcSmsNumSendRequest
 {
 	/** 
@@ -119,11 +121,11 @@ class AlibabaAliqinFcSmsNumSendRequest
 	
 	public function check()
 	{
-		
-		RequestCheckUtil::checkNotNull($this->recNum,"recNum");
-		RequestCheckUtil::checkNotNull($this->smsFreeSignName,"smsFreeSignName");
-		RequestCheckUtil::checkNotNull($this->smsTemplateCode,"smsTemplateCode");
-		RequestCheckUtil::checkNotNull($this->smsType,"smsType");
+		$RequestCheckUtil = new RequestCheckUtil();
+		$RequestCheckUtil::checkNotNull($this->recNum,"recNum");
+		$RequestCheckUtil::checkNotNull($this->smsFreeSignName,"smsFreeSignName");
+		$RequestCheckUtil::checkNotNull($this->smsTemplateCode,"smsTemplateCode");
+		$RequestCheckUtil::checkNotNull($this->smsType,"smsType");
 	}
 	
 	public function putOtherTextParam($key, $value) {
