@@ -1,15 +1,15 @@
 # selftp5class
 self tp5 classes for simple use
-# alidayu °¢Àï´óÓÚ¶ÌĞÅ·¢ËÍ
-## Ç°ÆÚ×¼±¸
-* 1 ×¢²á°¢Àï´óÓÚÕËºÅ https://www.alidayu.com£¬Ãâ·ÑÔùËÍ200Ìõ
-* 2 ½øÈëºóÌ¨£¬Ó¦ÓÃ¹ÜÀí->Ó¦ÓÃÁĞ±í->´´½¨Ó¦ÓÃ£¬¾­¹ıÉóºËºóÔÙÊ¹ÓÃ
-* 3 ÅäÖÃ¹ÜÀí->ÑéÖ¤Âë/¶ÌĞÅÍ¨Öª->Ìí¼ÓÇ©Ãû£¬¾­¹ıÉóºËºóÊ¹ÓÃ
-* 4 ÅäÖÃ¹ÜÀí->ÑéÖ¤Âë/¶ÌĞÅÍ¨Öª->Ìí¼ÓÄ£°å£¬¾­¹ıÉóºËºóÊ¹ÓÃ
-## ÈçºÎÊ¹ÓÃ
-### °²×°ÒÀÀµ°ü
+# alidayu é˜¿é‡Œå¤§äºçŸ­ä¿¡å‘é€
+## å‰æœŸå‡†å¤‡
+* 1ã€ æ³¨å†Œé˜¿é‡Œå¤§äºè´¦å·ï¼Œhttps://www.alidayu.com å…è´¹èµ é€200æ¡
+* 2ã€ è¿›å…¥åå°ï¼Œåº”ç”¨ç®¡ç†->åº”ç”¨åˆ—è¡¨->åˆ›å»ºåº”ç”¨ï¼Œç»è¿‡å®¡æ ¸åå†ä½¿ç”¨
+* 3ã€ é…ç½®ç®¡ç†->éªŒè¯ç /çŸ­ä¿¡é€šçŸ¥->æ·»åŠ ç­¾åï¼Œç»è¿‡å®¡æ ¸åä½¿ç”¨
+* 4ã€ é…ç½®ç®¡ç†->éªŒè¯ç /çŸ­ä¿¡é€šçŸ¥->æ·»åŠ æ¨¡æ¿ï¼Œç»è¿‡å®¡æ ¸åä½¿ç”¨
+## å¦‚ä½•ä½¿ç”¨
+### å®‰è£…ä¾èµ–åŒ…
 `composer require lazycat/selftp5class dev-master`
-### ÓÃ·¨
+### ç”¨æ³•
 ```php
 <?php
 
@@ -19,21 +19,27 @@ use Catclass\Sms\Alidayu;
 
 class Sms {
 
-    public function send_sms($mobile){
+    public function send_sms($mobile,$data = [],$sign_name = '',$guest_name = 'guest'){
         $config = [
             'app_key'            => 'xxxxxxxx',
             'secret_key'         => 'xxxxxxxxxxxxxxxxxxxxxxxx',
             'format'             => 'json',
             'api_version'        => '2.0',
             'sign_method'        => 'MD5',
-            'sign_name'          => 'Ç©ÃûÃû³Æ',  //ÓĞ¶àÉÙ¸öÑéÖ¤Í¨¹ıµÄÇ©Ãû¶¼¿ÉÒÔÊ¹ÓÃ
+            'sign_name'          => 'ç­¾ååç§°',  //æœ‰å¤šå°‘ä¸ªéªŒè¯é€šè¿‡çš„ç­¾åéƒ½å¯ä»¥ä½¿ç”¨
             'sms_templateCode'   => 'xx'
         ];
-        $code = '1234';         //×Ô¼ºËæÒâÉú³É
-        $name = '²âÊÔ¹«Ë¾1234';
-        $guest_name = 'guest';      //ÓÃ»§Ãû
+        if($sign_name){
+            $config['sign_name'] = $sign_name;
+        }
+        //data ä¸¾ä¾‹
+        //$data = ['code'=>$code,'name'=>$name];  //ä¸¾ä¾‹
+        //$code = '1234';         //è‡ªå·±éšæ„ç”Ÿæˆ
+        //$name = 'æµ‹è¯•å…¬å¸1234';
+
+        //$guest_name = 'guest';      //ç”¨æˆ·å
         $alidayu = new Alidayu($config);
-        $result = $alidayu->sendSMS($mobile,$guest_name,['code'=>$code,'name'=>$name]);
+        $result = $alidayu->sendSMS($mobile,$guest_name,$data);
         exit();
         }
 }

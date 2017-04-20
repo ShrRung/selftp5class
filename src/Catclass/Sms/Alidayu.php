@@ -50,7 +50,7 @@ class Alidayu
      * 获取模板
      * 必须与阿里大于管理后台一致
      */
-    function sendSMS($mobile,$SignName,$clientName='default',$data = [])
+    function sendSMS($mobile,$clientName='guest',$data = [])
     {
         $c = new TopClient($this->setting);
         new ResultSet();
