@@ -18,8 +18,8 @@
     "autoload": {
         "psr-4": {
             "Catclass\\Sms\\": "src/Catclass/Sms",
-            "Catclass\\Sms\\Alidayucode\\Top": "src/Catclass/Sms/Alidayucode/Top",
-            "Catclass\\Sms\\Alidayucode\\Top\\Request": "src/Catclass/Sms/Alidayucode/Top/Request"
+            "Catclass\\Sms\\Alidayucode\\Top\\": "src/Catclass/Sms/Alidayucode/Top",
+            "Catclass\\Sms\\Alidayucode\\Top\\Request\\": "src/Catclass/Sms/Alidayucode/Top/Request"
 
         }
     }
