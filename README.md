@@ -1,15 +1,16 @@
 # selftp5class
 self tp5 classes for simple use
-# alidayu 阿里大于短信发送
-## 前期准备
+### 安装依赖包
+`composer require lazycat/selftp5class dev-master`
+进行以上操作即可使用所有定义的方法
+# 短信类
+## alidayu 阿里大于短信发送
+### 前期准备
 * 1、 注册阿里大于账号，https://www.alidayu.com 免费赠送200条
 * 2、 进入后台，应用管理->应用列表->创建应用，经过审核后再使用
 * 3、 配置管理->验证码/短信通知->添加签名，经过审核后使用
 * 4、 配置管理->验证码/短信通知->添加模板，经过审核后使用
-## 如何使用
-### 安装依赖包
-`composer require lazycat/selftp5class dev-master`
-### 用法
+### 如何使用
 ```php
 <?php
 
@@ -46,3 +47,41 @@ class Sms {
 
 ```
 
+## 网易云信短信
+### 前期准备
+和阿里大于类似
+### 如何使用
+```php
+<?php
+namespace app\index\Controller;
+
+use Catclass\Sms\Yunxin;
+
+class Sms {
+/*
+ * 发送模板短信
+ * $mobile 为一个数组
+ */
+    public function yx_send_temp_sms($mobile = [],$parmas = [],$templateid = ''){
+        $config = [
+            'AppKey'            => 'xxxxxxxx',
+            'AppSecret'         => 'xxxxxxxxxxxxxxxxxxxxxxxx',
+        ];
+        $yunxin = new Yunxin($config);
+        $result = $yunxin->yx_send_temp_sms($mobiles,$params,$templateid);
+    }
+/*
+ * 发送code短信
+ */
+    public function yx_send_code($mobile = '',$codeLen = '',$deviceId = '',$templateid=''){
+        $config = [
+            'AppKey'            => 'xxxxxxxx',
+            'AppSecret'         => 'xxxxxxxxxxxxxxxxxxxxxxxx'
+        ];
+        $yunxin = new Yunxin($config);
+        $result = $yunxin->yx_send_code($mobile,$codeLen,$deviceId,$templateid);
+    }
+
+}
+
+```
