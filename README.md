@@ -19,7 +19,7 @@ use Catclass\Sms\Alidayu;
 
 class Sms {
 
-    public function send_sms($mobile,$data = [],$sign_name = '',$guest_name = 'guest'){
+    public function send_sms($mobile,$data = [],$sign_name = '',$clientId = 0){
         $config = [
             'app_key'            => 'xxxxxxxx',
             'secret_key'         => 'xxxxxxxxxxxxxxxxxxxxxxxx',
@@ -37,9 +37,9 @@ class Sms {
         //$code = '1234';         //自己随意生成
         //$name = '测试公司1234';
 
-        //$guest_name = 'guest';      //用户名
+        //$clientId = '123456';      //用户可以传入自己下级的会员ID
         $alidayu = new Alidayu($config);
-        $result = $alidayu->sendSMS($mobile,$guest_name,$data);
+        $result = $alidayu->sendSMS($mobile,$clientId,$data);
         exit();
         }
 }

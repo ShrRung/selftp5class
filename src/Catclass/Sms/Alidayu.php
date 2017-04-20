@@ -50,7 +50,7 @@ class Alidayu
      * 获取模板
      * 必须与阿里大于管理后台一致
      */
-    function sendSMS($mobile,$clientName='guest',$data = [])
+    function sendSMS($mobile,$clientId=0,$data = [])
     {
         $c = new TopClient($this->setting);
         new ResultSet();
@@ -60,7 +60,7 @@ class Alidayu
         $c->appkey = $this->setting['app_key'];
         $c->secretKey = $this->setting['secret_key'];
         $req = new AlibabaAliqinFcSmsNumSendRequest;
-        $req->setExtend($clientName);       //可选 这个是用户名记录那个用户操作
+        $req->setExtend($clientId);       //可选 这个是用户名记录那个用户操作
         $req->setSmsType($this->setting['format']);     //短信类型 此处默认 不用修改
         $req->setSmsFreeSignName($this->setting['sign_name']);        //短信签名 必须  为网站设置的验证通过的签名
         //短信模板 必须
