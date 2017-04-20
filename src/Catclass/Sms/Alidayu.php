@@ -31,9 +31,11 @@ class Alidayu
 
     private $mobile;
 
+    private $SignName;
+
     private $setting;
 
-    public function __construct($mobile,$config = []){
+    public function __construct($mobile,$SignName,$config = []){
         //时区设置：亚洲/上海
         date_default_timezone_set('Asia/Shanghai');
         $this->setting = [
@@ -48,6 +50,7 @@ class Alidayu
             'sms_templateCode'   => $config['sms_templateCode']
         ];
         $this->mobile = $mobile;
+        $this->SignName = $SignName;
 
     }
 
@@ -76,7 +79,7 @@ class Alidayu
         //短信类型 此处默认 不用修改
         $req->setSmsType("format");
         //短信签名 必须
-        $req->setSmsFreeSignName("注册验证");
+        $req->setSmsFreeSignName($this->SignName);
         //短信模板 必须
         $req->setSmsParam("{\"code\":\"$code\",\"product\":\"$product\"}");
         //短信接收号码 支持单个或多个手机号码，传入号码为11位手机号码，不能加0或+86。群发短信需传入多个号码，以英文逗号分隔，
