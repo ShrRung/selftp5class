@@ -41,7 +41,7 @@ class Alidayu
             'format'             => $config['format'],
             'api_version'        => $config['api_version'],
             'sign_method'        => $config['sign_method'],   //2.0版本只有md5
-            'sign_name'          => $config['sign_name'],
+            'signature'          => $config['signature'],
             'sms_templateCode'  => $config['sms_templateCode']
         ];
     }
@@ -62,9 +62,9 @@ class Alidayu
         $req = new AlibabaAliqinFcSmsNumSendRequest;
         $req->setExtend($clientId);       //可选 这个是用户名记录那个用户操作
         $req->setSmsType($this->setting['format']);     //短信类型 此处默认 不用修改
-        $req->setSmsFreeSignName($this->setting['sign_name']);        //短信签名 必须  为网站设置的验证通过的签名
+        $req->setSmsFreeSignName($this->setting['signature']);        //短信签名 必须  为网站设置的验证通过的签名
         //短信模板 必须
-        $req->setSmsParam(json_encode($data));  //"{\"code\":\"$code\",\"name\":\"$name\"}"
+        $req->setSmsParam(json_encode($data));  //"{\"code\":\"$code\",\"name\":\"$name\"}"  注意不支持 {"code":123456}
         $req->setRecNum("$mobile");         //支持单个或多个手机号码，传入号码为11位手机号码，不能加0或+86。群发短信需传入多个号码，以英文逗号分隔
         $req->setSmsTemplateCode($this->setting['sms_templateCode']); //模板code
         $c->format=$this->setting['format'];

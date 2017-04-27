@@ -27,7 +27,7 @@ class Sms {
             'format'             => 'json',
             'api_version'        => '2.0',
             'sign_method'        => 'MD5',
-            'sign_name'          => '签名名称',  //有多少个验证通过的签名都可以使用
+            'signature'          => '签名名称',  //有多少个验证通过的签名都可以使用
             'sms_templateCode'   => 'xx'
         ];
         if($sign_name){
