@@ -66,23 +66,6 @@ class Comfun{
         return $fdate;
     }
 
-    /**
-     * 多维数组转化为一维数组
-     * @param 多维数组
-     * @return array 一维数组
-     */
-    function array_multi2single($array)
-    {
-        static $result_array = array();
-        foreach ($array as $value) {
-            if (is_array($value)) {
-                array_multi2single($value);
-            } else
-                $result_array [] = $value;
-        }
-        return $result_array;
-    }
-
     // 定义一个函数getIP() 客户端IP，
     function getIP(){
         if (getenv("HTTP_CLIENT_IP"))
@@ -128,10 +111,6 @@ class Comfun{
         return $tokenvalue;
     }
 
-    /**
-     * 判断当前访问的用户是  PC端  还是 手机端  返回true 为手机端  false 为PC 端
-     * @return boolean
-     */
     /**
     　　* 是否移动端访问访问
     　　*
@@ -261,5 +240,22 @@ class Comfun{
             $arr2[$val[$key_name]] = $val;
         }
         return $arr2;
+    }
+
+//生成验证码
+    function random($length = 6, $numeric = 0)
+    {
+        PHP_VERSION < '4.2.0' && mt_srand((double)microtime() * 1000000);
+        if ($numeric) {
+            $hash = sprintf('%0' . $length . 'd', mt_rand(0, pow(10, $length) - 1));
+        } else {
+            $hash = '';
+            $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ1234567890abcdefghjkmnpqrstuvwxyz';
+            $max = strlen($chars) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $hash .= $chars[mt_rand(0, $max)];
+            }
+        }
+        return $hash;
     }
 }
