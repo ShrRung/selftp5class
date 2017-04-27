@@ -70,7 +70,6 @@ class Alidayu
         $c->format=$this->setting['format'];
         //发送短信
         $resp = $c->execute($req);
-        var_dump($resp);
         $return_str = [
             'status' => 'true',
             'msg' => 'success'
