@@ -1,11 +1,12 @@
 <?php
+namespace Catclass\Comfun;
 /**
  * Created by PhpStorm.
  * User: lazycat
  * Date: 17/4/19
  * Time: 21:40
  */
-class Comfun{
+class Comfuns{
     /**
      * 友好时间显示
      * @param $time
