@@ -34,13 +34,13 @@ class Sms {
             $config['sign_name'] = $sign_name;
         }
         //data 举例
-        //$data = ['code'=>$code,'name'=>$name];  //举例
+        //$data = ["code"=>$code,"name"=>$name];  //举例
         //$code = '1234';         //自己随意生成
         //$name = '测试公司1234';
 
         //$clientId = '123456';      //用户可以传入自己下级的会员ID
         $alidayu = new Alidayu($config);
-        $result = $alidayu->sendSMS($mobile,$clientId,$data);
+        $result = $alidayu->sendSMS($mobile,$clientId,json_encode($data));
         exit();
         }
 }
