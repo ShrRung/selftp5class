@@ -6,6 +6,8 @@
  **/
 namespace Catclass\Sms\Alidayucode\Top;
 
+use Catclass\Sms\Exception;
+
 class RequestCheckUtil
 {
 	/**
