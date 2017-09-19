@@ -74,7 +74,8 @@ class Alidayu
             'status' => 'true',
             'msg' => 'success'
         ];
-        if ($resp && $resp->code < 1){// if($resp->result->success == true)
+        if($resp && isset($resp->result)){
+            //请求成功，但不一定是短信发送成功
             return $return_str;
         }else{
             $return_str['status'] = 'false';
@@ -90,6 +91,7 @@ class Alidayu
             }
             return $return_str;
         }
+
 
     }
 }
