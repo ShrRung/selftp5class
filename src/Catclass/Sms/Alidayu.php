@@ -50,7 +50,7 @@ class Alidayu
      * 获取模板
      * 必须与阿里大于管理后台一致
      */
-    function sendSMS($mobile,$clientId=0,$data = [])
+    function sendSMS($mobile,$clientId=0,$data)
     {
         $c = new TopClient($this->setting);
         new ResultSet();
@@ -64,21 +64,21 @@ class Alidayu
         $req->setSmsType($this->setting['format']);     //短信类型 此处默认 不用修改
         $req->setSmsFreeSignName($this->setting['signature']);        //短信签名 必须  为网站设置的验证通过的签名
         //短信模板 必须
-        $req->setSmsParam($data);  //"{\"code\":\"$code\",\"name\":\"$name\"}"  注意不支持 {"code":123456}
+        $req->setSmsParam($data);  //"{\"code\":\"$code\",\"name\":\"$name\"}"
         $req->setRecNum("$mobile");         //支持单个或多个手机号码，传入号码为11位手机号码，不能加0或+86。群发短信需传入多个号码，以英文逗号分隔
         $req->setSmsTemplateCode($this->setting['sms_templateCode']); //模板code
         $c->format=$this->setting['format'];
         //发送短信
         $resp = $c->execute($req);
         $return_str = [
-            'status' => 'true',
+            'status' => true,
             'msg' => 'success'
         ];
         if($resp && isset($resp->result)){
             //请求成功，但不一定是短信发送成功
             return $return_str;
         }else{
-            $return_str['status'] = 'false';
+            $return_str['status'] = false;
             switch ($resp->sub_code) {
                 case 'isv.BUSINESS_LIMIT_CONTROL':
                     $return_str['msg'] = '请勿频繁请求,稍后再试';
