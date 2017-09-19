@@ -74,11 +74,11 @@ class Alidayu
             'status' => 'true',
             'msg' => 'success'
         ];
-        if ($resp && $resp->result){// if($resp->result->success == true)
+        if ($resp && $resp->code < 1){// if($resp->result->success == true)
             return $return_str;
         }else{
             $return_str['status'] = 'false';
-            switch ($resp['error_response']['sub_code']) {
+            switch ($resp->sub_code) {
                 case 'isv.BUSINESS_LIMIT_CONTROL':
                     $return_str['msg'] = '请勿频繁请求,稍后再试';
                     break;
