@@ -1,13 +1,16 @@
 <?php
 namespace Catclass\Sms\Alidayucode\Top;
 
+use Catclass\Sms\Exception;
+
 class TopClient
 {
 	public $appkey;
 
 	public $secretKey;
 
-	public $gatewayUrl = "http://gw.api.taobao.com/router/rest";
+//	public $gatewayUrl = "https://gw.api.taobao.com/router/rest"; //沙箱环境
+	public $gatewayUrl = "https://eco.taobao.com/router/rest";  //正式环境
 
 	public $format = "xml";
 

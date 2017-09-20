@@ -20,16 +20,6 @@ use Catclass\Sms\Alidayucode\Top\Request\AlibabaAliqinFcSmsNumSendRequest;
 
 class Alidayu
 {
-    public $gatewayUrl = "http://gw.api.taobao.com/router/rest";
-
-    public $connectTimeout;
-
-    public $readTimeout;
-
-    /** 是否打开入参check**/
-    public $checkRequest = true;
-
-    private $setting;
 
     public function __construct($config = []){
         //时区设置：亚洲/上海
@@ -50,7 +40,7 @@ class Alidayu
      * 获取模板
      * 必须与阿里大于管理后台一致
      */
-    function sendSMS($mobile,$clientId=0,$data)
+    private function sendSMS($mobile,$clientId=0,$data)
     {
         $c = new TopClient($this->setting);
         new ResultSet();
